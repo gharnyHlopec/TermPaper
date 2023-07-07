@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<body>
+<div class="container-fluid p-5 bg-primary text-white text-center">
+  <h1>Расходы</h1>
+</div>
+
+<ul>
+  {% for x in myexpenses %}
+    <li><a href="details/{{ x.id }}">file {{ x.id }}</a></li>
+  {% endfor %}
+</ul>
+
+<a href="http://127.0.0.1:8000/list/">Добавить файл</a>
+
+</body>
+</html>

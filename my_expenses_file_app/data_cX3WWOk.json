@@ -1,0 +1,46 @@
+[
+  {
+    "model": "expenses.expense",
+    "pk": 1,
+    "fields": 
+    {
+      "classification": "Food",
+      "name": "Burger",
+      "price": 5.2,
+      "purchase_date": "2020-10-10"
+    }
+  },
+  {
+    "model": "expenses.expense",
+    "pk": 2,
+    "fields": 
+    {
+      "classification": "Food",
+      "name": "Burger",
+      "price": 5.2,
+      "purchase_date": "2020-10-10"
+    }
+  },
+  {
+    "model": "expenses.expense",
+    "pk": 3,
+    "fields": 
+    {
+      "classification": "Food",
+      "name": "Meat",
+      "price": 8,
+      "purchase_date": "2021-09-10"
+    }
+  },
+  {
+    "model": "expenses.expense",
+    "pk": 4,
+    "fields": 
+    {
+      "classification": "Food",
+      "name": "Apple",
+      "price": 0.8,
+      "purchase_date": "2022-08-10"
+    }
+  }
+]

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<div class="container-fluid p-5 bg-primary text-white text-center">
+  <h1>Мои расходы</h1>
+</div>
+
+
+{% load static %}
+<!DOCTYPE html>
+<a href="http://127.0.0.1:8000/expenses/">Назад к списку файлов</a>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<body>
+
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+
+<div class="container mt-3">
+         
+  <table class="table">
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Purchase Date</th>
+      <!-- Добавьте другие заголовки столбцов по необходимости -->
+    </tr>
+  </thead>
+  <tbody id="tableBody">
+    <!-- Здесь будут добавлены строки таблицы из JSON-данных -->
+  </tbody>
+</table>
+</div>
+
+<script>
+    var fileDirectory = "{{ myexpense.expense_file }}";
+    fetch(`http://127.0.0.1:8000/${fileDirectory}`)
+    .then(response => response.json())
+    .then(data => {
+      // Сортировка данных по возрастанию значения поля "purchase_date"
+      data.sort(function(a, b) {
+        var dateA = new Date(a.fields.purchase_date);
+        var dateB = new Date(b.fields.purchase_date);
+        return dateB - dateA;
+      });
+
+      var tableBody = document.getElementById('tableBody');
+
+      data.forEach(item => {
+        var row = document.createElement('tr');
+
+        var cell1 = document.createElement('td');
+        cell1.textContent = item.fields.classification;
+        row.appendChild(cell1);
+
+        var cell2 = document.createElement('td');
+        cell2.textContent = item.fields.name;
+        row.appendChild(cell2);
+
+        var cell3 = document.createElement('td');
+        cell3.textContent = item.fields.price;
+        row.appendChild(cell3);
+
+        var cell4 = document.createElement('td');
+        cell4.textContent = item.fields.purchase_date;
+        row.appendChild(cell4);
+
+        tableBody.appendChild(row);
+      });
+    })
+    .catch(error => console.error('Error while fetching data:', error));
+</script>
+
+
+
+
+
+
+
+
+  <div id="chart_div"></div>
+  
+  <script>
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+    var fileDirctory = "{{ myexpense.expense_file }}";
+    fetch(`http://127.0.0.1:8000/${fileDirctory}`)
+      .then(response => response.json())
+      .then(data => {
+        // Сортировка данных по убыванию значения поля "purchase_date"
+        data.sort(function(a, b) {
+          var dateA = new Date(a.fields.purchase_date);
+          var dateB = new Date(b.fields.purchase_date);
+          return dateA - dateB;
+        });
+
+        // Создание объекта, где ключ - дата, значение - сумма цен
+        var chartDataMap = {};
+        data.forEach(expense => {
+          var date = new Date(expense.fields.purchase_date);
+          var formattedDate = formatDate(date);
+          var price = expense.fields.price;
+          if (chartDataMap[formattedDate]) {
+            // Если дата уже существует в объекте, добавляем цену к существующему значению
+            chartDataMap[formattedDate] += price;
+          } else {
+            // Если дата не существует в объекте, создаем новую запись
+            chartDataMap[formattedDate] = price;
+          }
+        });
+
+        // Преобразование объекта в массив данных для диаграммы
+        var chartData = [['Date', 'Price']];
+        for (var date in chartDataMap) {
+          chartData.push([date, chartDataMap[date]]);
+        }
+
+        // Создание таблицы данных
+        var dataTable = google.visualization.arrayToDataTable(chartData);
+
+        // Опции для диаграммы
+        var options = {
+          width: '1000',
+          height: '500',
+          title: 'Столбчатая диаграмма расходов',
+          hAxis: {
+            title: 'Date',
+          },
+          vAxis: {
+            title: 'Price',
+          },
+        };
+
+        // Отображение диаграммы внутри элемента <div> с id="chart_div"
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        chart.draw(dataTable, options);
+      })
+      .catch(error => console.error('Error while fetching data:', error));
+    }
+
+    function formatDate(date) {
+      var options = { year: 'numeric', month: 'short', day: 'numeric' };
+      return date.toLocaleDateString('en-US', options);
+    }
+</script>
+</body>
+
+<html>
+<link rel="stylesheet" href="{% static 'circle_diagram.css' %}">
+
+<head>
+  <title>{% block title %}{% endblock %}</title>
+  {% load bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+</head>
+
+<body>
+
+<div id="piechart"></div>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<div id="chart_div"></div>
+
+</body>
+</html>
+
+
+
+<!-------------------------Круговая диаграмма-------------------------------------->
+
+
+<script type="text/javascript">
+// Load google charts
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+// Draw the chart and set the chart values
+function drawChart() {
+  var fileDirctory = "{{ myexpense.expense_file }}";
+  // Загрузка данных из JSON файла с помощью Fetch API
+  fetch(`http://127.0.0.1:8000/${fileDirctory}`)
+    .then(response => response.json())
+    .then(data => {
+      // Обработка данных и создание объекта для суммирования значений
+      var chartData = {};
+
+      data.forEach(expense => {
+        var category = expense.fields.classification;
+        var price = expense.fields.price;
+
+        if (chartData[category]) {
+          chartData[category] += price;
+        } else {
+          chartData[category] = price;
+        }
+      });
+
+      // Преобразование объекта в массив данных для диаграммы
+      var dataArray = [['Category', 'Price']];
+      Object.keys(chartData).forEach(category => {
+        dataArray.push([category, chartData[category]]);
+      });
+
+      // Создание таблицы данных
+      var chartDataTable = google.visualization.arrayToDataTable(dataArray);
+
+      // Опции для диаграммы
+      var options = {
+        'title': 'Круговая диаграмма расходов',
+        'width': 1000,
+        'height': 500
+      };
+
+      // Отображение диаграммы внутри элемента <div> с id="piechart"
+      var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+      chart.draw(chartDataTable, options);
+    })
+    .catch(error => console.error('Error while fetching data:', error));
+}
+</script>
+
+
+</body>
+</html>

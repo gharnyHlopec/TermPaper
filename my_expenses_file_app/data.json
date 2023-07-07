@@ -1,0 +1,102 @@
+[
+  {
+    "model": "expenses.expense",
+    "pk": 1,
+    "fields": {
+      "classification": "Medicine",
+      "name": "Nasal drops",
+      "price": 3.9,
+      "purchase_date": "2010-10-10"
+    }
+  },
+  {
+    "model": "expenses.expense",
+    "pk": 2,
+    "fields": {
+      "classification": "Food",
+      "name": "Sandwich",
+      "price": 9.3,
+      "purchase_date": "2020-10-10"
+    }
+  },
+  {
+    "model": "expenses.expense",
+    "pk": 3,
+    "fields": {
+      "classification": "Food",
+      "name": "Meat",
+      "price": 8,
+      "purchase_date": "2021-09-10"
+    }
+  },
+  {
+    "model": "expenses.expense",
+    "pk": 4,
+    "fields": {
+      "classification": "Food",
+      "name": "Apple",
+      "price": 0.8,
+      "purchase_date": "2022-08-10"
+    }
+  },
+  {
+    "model": "expenses.expense",
+    "pk": 5,
+    "fields": {
+      "classification": "Medicine",
+      "name": "Painkiller",
+      "price": 1.9,
+      "purchase_date": "2020-10-10"
+    }
+  },
+  {
+    "model": "expenses.expense",
+    "pk": 6,
+    "fields": {
+      "classification": "Transport",
+      "name": "Bus",
+      "price": 4.6,
+      "purchase_date": "2010-10-10"
+    }
+  },
+  {
+    "model": "expenses.expense",
+    "pk": 7,
+    "fields": {
+      "classifi‚Ïcation": "Food",
+      "name": "Cheese",
+      "price": 5.8,
+      "purchase_date": "2020-10-10"
+    }
+  },
+  {
+    "model": "expenses.expense",
+    "pk": 8,
+    "fields": {
+      "classification": "Transport",
+      "name": "Tram",
+      "price": 3.7,
+      "purchase_date": "2010-10-10"
+    }
+  },
+  {
+    "model": "expenses.expense",
+    "pk": 9,
+    "fields": {
+      "classification": "Transport",
+      "name": "Train",
+      "price": 3.9,
+      "purchase_date": "2010-10-10"
+    }
+  },
+  {
+    "model": "expenses.expense",
+    "pk": 10,
+    "fields": {
+      "classification": "Medicine",
+      "name": "Nasal drops",
+      "price": 3.9,
+      "purchase_date": "2010-10-10"
+    }
+  }
+]
