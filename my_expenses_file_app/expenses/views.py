@@ -26,8 +26,12 @@ def upload_file(request):
     file = request.FILES['file']
     expense = Expense.objects.create(expense_file = file) 
     expense.save()
-    #return HttpResponse("The name of uploaded file is " + str(file))
-    return HttpResponse("The expense with id " + str(expense.pk) + "has the file: " + str(expense.expense_file))
+    template = loader.get_template('all_expenses.html')
+    myexpenses = Expense.objects.all().values()
+    context = {
+    'myexpenses': myexpenses,
+    }
+    return HttpResponse(template.render(context, request))
   else:
     form = UploadFileForm()
   return render(request, 'upload.html', {'form': form})
